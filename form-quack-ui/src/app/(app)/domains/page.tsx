@@ -17,7 +17,7 @@ const DomainsPage = async () => {
     <div>
       <div className="py-4 flex justify-between">
         <p className=" text-sm text-muted-foreground">
-          {user.domainLimit - domains.length} out of {user.domainLimit} remaining
+          {user.domainLimit - domains.length} out of {user.domainLimit} domains remaining
         </p>
         <Link href={"/domains/create"}>
           <Button>New Domain</Button>
@@ -44,7 +44,9 @@ const DomainsPage = async () => {
           <div className="flex flex-col items-center gap-1 text-center">
             <h3 className="text-2xl font-bold tracking-tight">You have no domains</h3>
             <p className="text-sm text-muted-foreground">You can start exploring as soon as you add a domain.</p>
-            <Button className="mt-4">Add Domain</Button>
+            <Link href={"/domains/create"}>
+              <Button className="mt-4">Add Domain</Button>
+            </Link>
           </div>
         </div>
       )}

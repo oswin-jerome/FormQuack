@@ -4,9 +4,11 @@ package in.oswinjerome.FormQuackBackend.exceptions;
 import in.oswinjerome.FormQuackBackend.utils.ResponsePayload;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,7 +53,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponsePayload> invalidHost(InvalidHostException e){
 
         return new ResponseEntity<>(
-                new ResponsePayload(false,null,"Domain miss match")
+                new ResponsePayload(false,null,e.getMessage())
                 , HttpStatus.UNPROCESSABLE_ENTITY
         );
     }
@@ -77,4 +79,27 @@ public class GlobalExceptionHandler {
                 , HttpStatus.UNPROCESSABLE_ENTITY
         );
     }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(MessagingException.class)
+    public ResponseEntity<ResponsePayload> messageError(MessagingException e){
+
+        return new ResponseEntity<>(
+                new ResponsePayload(false,null,e.getMessage())
+                , HttpStatus.SERVICE_UNAVAILABLE
+        );
+    }
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ResponsePayload> userNotFound(UsernameNotFoundException e){
+
+        return new ResponseEntity<>(
+                new ResponsePayload(false,null,e.getMessage())
+                , HttpStatus.UNAUTHORIZED
+        );
+    }
+
+
 }

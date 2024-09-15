@@ -1,8 +1,12 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function ErrorPage() {
+  const query = useSearchParams();
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-50 p-4">
       <Card className="w-full max-w-md text-center">
@@ -13,12 +17,12 @@ export default function ErrorPage() {
           <CardTitle className="text-2xl font-bold text-red-800">Oops! Something went wrong</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-600">We're sorry, but we encountered an error while processing your request. Please try again or contact support if the problem persists.</p>
+          <p className="text-gray-600">{query.get("message")}</p>
         </CardContent>
         <CardFooter className="flex justify-center space-x-4">
-          <Button variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
-            Back to Home
-          </Button>
+          <Link href={query.get("back") ?? ""} className="text-red-600 border-red-600 hover:bg-red-50 px-4 py-2 rounded">
+            Go Back
+          </Link>
         </CardFooter>
       </Card>
     </div>

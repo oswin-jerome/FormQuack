@@ -26,7 +26,7 @@ const ChangePassword = () => {
       return;
     }
     const res = await changePassword(data.password);
-    console.log(res);
+
     if (res.ok) {
       toast.success("Password changed");
     } else {
@@ -34,7 +34,6 @@ const ChangePassword = () => {
     }
     setIsLoading(false);
     setIsOpen(false);
-    console.log("Password changed");
   };
   return (
     <Dialog

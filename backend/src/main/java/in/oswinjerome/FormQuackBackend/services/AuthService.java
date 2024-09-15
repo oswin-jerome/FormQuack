@@ -6,6 +6,7 @@ import in.oswinjerome.FormQuackBackend.models.User;
 import in.oswinjerome.FormQuackBackend.repos.EmailRepo;
 import in.oswinjerome.FormQuackBackend.repos.UserRepo;
 import in.oswinjerome.FormQuackBackend.utils.ResponsePayload;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,9 @@ public class AuthService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    NotificationService notificationService;
+
 
     @Transactional
     public ResponseEntity<ResponsePayload> save(User user){
@@ -84,6 +88,24 @@ public class AuthService {
         usersRepo.save(user);
 
         return new ResponseEntity<>(new ResponsePayload(true,user,""),HttpStatus.OK);
+
+    }
+
+    public void resetPassword(User newUser) throws MessagingException {
+        User user = usersRepo.findByEmail(newUser.getEmail()).orElse(null);
+        System.out.println(newUser.getEmail());
+
+        if(user==null){
+            return;
+        }
+
+//        TODO: randomize this password
+        String password = "30zFKNoe";
+        user.setPassword(passwordEncoder.encode(password));
+        usersRepo.save(user);
+
+        notificationService.sendPasswordReset(user,password);
+
 
     }
 }

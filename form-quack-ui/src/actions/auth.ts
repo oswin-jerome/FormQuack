@@ -73,6 +73,24 @@ export const changePassword = async (password: string) => {
   return data;
 };
 
+export const resetPassword = async (email: string) => {
+  const res = await fetch(process.env.API_URL + "/auth/user/reset_password", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+    next: {
+      revalidate: 0,
+      tags: ["get_domain"],
+    },
+  });
+
+  const data: APIResponse<Object> = await res.json();
+
+  return data;
+};
+
 export const changePlan = async (plan: string) => {
   const res = await fetchHelper(process.env.API_URL + "/auth/user/plan", {
     method: "PATCH",

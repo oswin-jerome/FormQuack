@@ -9,13 +9,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const ControlEmails = ({ form, emails }: { form: Form; emails: Email[] }) => {
+const ControlEmails = ({ form, emails, className }: { form: Form; emails: Email[]; className: string }) => {
   const [enable, setEnable] = useState(form.forwardToEmail);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader className="flex">
         <div className="flex justify-between">
           <div>

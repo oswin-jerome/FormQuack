@@ -36,8 +36,6 @@ export default function RegistrationPage() {
     }
 
     setIsLoading(false);
-    // Handle form submission here
-    console.log("Form submitted");
   }
 
   return (

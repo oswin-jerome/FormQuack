@@ -38,7 +38,6 @@ export const setEmailForwarding = async (formId: string, forwardToEmail: boolean
       tags: ["get_domain"],
     },
   });
-
   const data: APIResponse<FormOverview> = await res.json();
   return data;
 };

@@ -11,7 +11,7 @@ export default function LandingPage() {
           <span className="mr-2">🦆</span> FormQuack
         </div>
         <nav>
-          <ul className="flex space-x-4">
+          <ul className="flex space-x-8">
             <li>
               <a href="#features" className="text-gray-600 hover:text-blue-600">
                 Features

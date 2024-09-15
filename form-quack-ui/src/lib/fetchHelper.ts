@@ -11,8 +11,15 @@ export const fetchHelper = async (url: string, options: RequestInit) => {
     },
   });
 
-  if (response.status == 500 || response.status == 401) {
+  if (response.status == 401) {
+    console.error(await response.json());
+    // logout();
     redirect("/logout");
+  }
+
+  if (response.status == 500) {
+    // TODO: fix this
+    // redirect("/logout");
   }
 
   return response;

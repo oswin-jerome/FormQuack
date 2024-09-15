@@ -18,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -61,6 +64,8 @@ public class FormService {
 
     public ResponseEntity<ResponsePayload> getForm(String formId) {
 
+        LocalDate today = LocalDate.now();
+
         Optional<Form> form = formRepo.findById(formId);
 
         if(form.isEmpty()){
@@ -70,10 +75,22 @@ public class FormService {
         FormOverviewDto formDto = new FormOverviewDto(form.get().getId(), form.get().getName(),form.get().isActive());
         formDto.setForwardToEmail(form.get().isForwardToEmail());
         formDto.setTotalSubmissions(submissionRepo.countSubmissionByForm(form.get()));
+        formDto.setSubmissionsToday(submissionRepo.countSubmissionByFormAndCreatedAtBetween(
+                form.get(),
+                today.atStartOfDay().toLocalDate(),
+                today.plusDays(1).atStartOfDay().toLocalDate()
+        ));
+        formDto.setSubmissionsThisMonth(submissionRepo.countSubmissionByFormAndCreatedAtBetween(
+                form.get(),
+                today.with(TemporalAdjusters.firstDayOfMonth()),
+                today.with(TemporalAdjusters.lastDayOfMonth())
+        ));
+
         formDto.setEmails(form.get().getEmails());
         Domain domain = form.get().getDomain();
         domain.setForms(null);
         formDto.setDomain(domain);
+        formDto.setSubmissionLimitPerForm(authService.getCurrentUser().getSubmissionLimitPerForm());
 
         return new ResponseEntity<>(new ResponsePayload(true,formDto,""),HttpStatus.OK);
 

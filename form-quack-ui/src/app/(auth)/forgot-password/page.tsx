@@ -1,4 +1,5 @@
 "use client";
+import { resetPassword } from "@/actions/auth";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
@@ -20,7 +21,7 @@ export default function ResetPasswordPage() {
 
     // Simulate API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      resetPassword(email);
       // Simulated success
       setIsSuccess(true);
     } catch (err) {
@@ -73,7 +74,7 @@ export default function ResetPasswordPage() {
             <div>
               <Button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" disabled={isLoading}>
                 {isLoading ? <Icons.spinner className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4 mr-2" />}
-                {isLoading ? "Sending..." : "Send reset link"}
+                {isLoading ? "Resetting..." : "Reset My Password"}
               </Button>
             </div>
           </form>

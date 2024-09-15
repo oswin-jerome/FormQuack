@@ -92,9 +92,22 @@ public class User implements UserDetails {
             return 20;
         }
 
+        return 3;
+    }
+
+    public int getSubmissionLimitPerForm(){
+
+        if(plan == Plans.PRO){
+            return 5;
+        }
+
+        if(plan == Plans.PRO_PLUS){
+            return 20;
+        }
 
         return 3;
     }
+
 
     public Plans getPlan() {
         return plan;

@@ -5,6 +5,7 @@ import in.oswinjerome.FormQuackBackend.enums.Plans;
 import in.oswinjerome.FormQuackBackend.models.User;
 import in.oswinjerome.FormQuackBackend.services.AuthService;
 import in.oswinjerome.FormQuackBackend.utils.ResponsePayload;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,5 +60,15 @@ public class AuthController {
     public ResponseEntity<ResponsePayload> changePassword(@RequestBody User newUser) {
 
         return service.updateUser(newUser);
+    }
+
+    @PostMapping("user/reset_password")
+    public ResponseEntity<ResponsePayload> resetPassword(@RequestBody User newUser) throws MessagingException {
+
+        System.out.println(newUser.getEmail());
+
+        service.resetPassword(newUser);
+
+        return new ResponseEntity<>(new ResponsePayload(true,"",""),HttpStatus.OK);
     }
 }

@@ -1,14 +1,21 @@
 package in.oswinjerome.FormQuackBackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Form {
 
     @UuidGenerator()
@@ -31,31 +38,14 @@ public class Form {
    )
    private Set<Email> emails;
 
+   @OneToMany(mappedBy = "form")
+   @JsonIgnore
+   private List<Submission> submissions;
 
-    public Domain getDomain() {
-        return domain;
-    }
 
-    public void setDomain(Domain domain) {
-        this.domain = domain;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Form(String name) {
         this.name = name;
     }
-
 
     public boolean isActive() {
         return isActive;
@@ -63,21 +53,5 @@ public class Form {
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    public boolean isForwardToEmail() {
-        return forwardToEmail;
-    }
-
-    public void setForwardToEmail(boolean forwardToEmail) {
-        this.forwardToEmail = forwardToEmail;
-    }
-
-    public Set<Email> getEmails() {
-        return emails;
-    }
-
-    public void setEmails(Set<Email> emails) {
-        this.emails = emails;
     }
 }

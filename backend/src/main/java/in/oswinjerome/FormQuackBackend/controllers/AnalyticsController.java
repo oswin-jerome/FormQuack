@@ -22,4 +22,11 @@ public class AnalyticsController {
         return  analyticsService.monthlyAll();
     }
 
+    @GetMapping("dashboard")
+    public ResponseEntity<ResponsePayload> getDashboardData(){
+
+
+        return  analyticsService.getDashboardData();
+    }
+
 }

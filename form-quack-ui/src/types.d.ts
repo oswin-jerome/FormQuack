@@ -31,6 +31,7 @@ export interface FormOverview extends Form {
   submissionsThisMonth: number;
   submissionsToday: number;
   active: boolean;
+  submissionLimitPerForm: number;
 }
 
 export interface Email {
@@ -54,4 +55,24 @@ export interface User {
   accountNonLocked: boolean;
   credentialsNonExpired: boolean;
   plan: "BASIC" | "PRO" | "PRO_PLUS";
+
+  submissionLimitPerForm: number;
+}
+
+export interface DashboardPayload {
+  totalDomains: number;
+  domainLimit: number;
+  totalForms: number;
+  formLimit: number;
+  totalSubmissions: number;
+  totalSubmissionsToday: number;
+  totalSubmissionsThisMonth: number;
+  popularForm: Form;
+  emailsAdded: number;
+  totalForwards: number;
+  totalForwardsToday: number;
+  totalForwardsThisMonth: number;
+  totalFails: number;
+  totalFailsToday: number;
+  totalFailsThisMonth: number;
 }
