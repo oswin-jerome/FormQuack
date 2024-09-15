@@ -7,7 +7,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "9001:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydatabase
       SPRING_DATASOURCE_USERNAME: myuser
@@ -26,7 +26,7 @@ services:
       context: ./form-quack-ui
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "9000:3000"
     environment:
       API_URL: http://backend:8080
     depends_on:
@@ -50,8 +50,8 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672" # RabbitMQ port
-      - "15672:15672" # Management console port
+      - "5673:5672" # RabbitMQ port
+      - "15673:15672" # Management console port
     networks:
       - app-network
 

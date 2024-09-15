@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class RabbitMQConsumer {
     NotificationService notificationService;
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME, ackMode = "AUTO")
-    public void receiveMessage(Message message) throws JsonProcessingException, MessagingException {
+    public void receiveMessage(Message message) throws JsonProcessingException, MessagingException, UnsupportedEncodingException {
          final ObjectMapper objectMapper = new ObjectMapper();
         System.out.println(new String(message.getBody()));
         Map<String, Object> map = objectMapper.readValue(new String(message.getBody()), new TypeReference<HashMap<String, Object>>() {});

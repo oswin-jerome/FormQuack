@@ -14,6 +14,7 @@ import org.thymeleaf.TemplateEngine;
 
 import org.thymeleaf.context.Context;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class NotificationService {
     @Autowired
     NotificationRepo notificationRepo;
 
-    public void sendEmail(ArrayList<String> toEmail, String subject, Map<String, Object> templateModel) throws MessagingException {
+    public void sendEmail(ArrayList<String> toEmail, String subject, Map<String, Object> templateModel) throws MessagingException, UnsupportedEncodingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
@@ -48,8 +49,7 @@ public class NotificationService {
         helper.setTo(toEmail.toArray(String[]::new));
         helper.setSubject(subject);
         helper.setText(htmlContent, true);
-        helper.setFrom(appConfig.getFromAddress());
-
+        helper.setFrom(appConfig.getFromAddress(),"FormQuack");
         // Send the email
         mailSender.send(mimeMessage);
 

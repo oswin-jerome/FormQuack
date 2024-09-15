@@ -19,7 +19,7 @@ const FormDetails = async ({ params }: { params: { formId: number } }) => {
 
   const html = `<html>
 	<body>
-		<form action="https://formquack.io/forms/${params.formId}" method="POST" > 
+		<form action="${process.env.PUBLIC_APP_DOMAIN}/api/forms/${params.formId}" method="POST" > 
 			<input name="name" />
 			<input name="email" type="email" />
 		</form>
@@ -27,7 +27,7 @@ const FormDetails = async ({ params }: { params: { formId: number } }) => {
 </html>`;
 
   const rest = `const handleForm = ()=>{
-	fetch("https://formquack.io/forms/${params.formId}",{
+	fetch("${process.env.PUBLIC_APP_DOMAIN}/api/forms/${params.formId}",{
 	  method:'POST',
 	  body: JSON.stringify({
 		  name:"john"
