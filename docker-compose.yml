@@ -29,6 +29,7 @@ services:
       - "9000:3000"
     environment:
       API_URL: http://backend:8080
+      PUBLIC_APP_DOMAIN: https://formquack.oswinjerome.in
     depends_on:
       - backend
     networks:

@@ -48,7 +48,7 @@ const DomainDetails = async ({ params }: { params: { domainId: number } }) => {
         <h3 className="text-xl font-bold">Forms</h3>
         <AddForm domainId={params.domainId} />
       </div>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid  md:grid-cols-2 lg:grid-cols-4 gap-4">
         {forms.map((form) => {
           return (
             <Link href={`/domains/${params.domainId}/forms/${form.id}`} key={form.id}>

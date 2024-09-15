@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Toaster } from "@/components/ui/sonner";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { User } from "@/types";
-import { Globe, Home, LineChart, LogOut, Package, Package2, PanelLeft, Search, Settings, ShoppingCart, Users2 } from "lucide-react";
+import { Globe, Home, LineChart, LogOut, Package2, PanelLeft, Search, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
@@ -29,6 +29,24 @@ export default function RootLayout({
     });
   }, []);
 
+  const menus = [
+    {
+      href: "/dashboard",
+      label: "Dashboard",
+      icon: <Home className="h-5 w-5" />,
+    },
+    {
+      href: "/domains",
+      label: "Domains",
+      icon: <Globe className="h-5 w-5" />,
+    },
+    {
+      href: "/analytics",
+      label: "Analytics",
+      icon: <LineChart className="h-5 w-5" />,
+    },
+  ];
+
   return (
     <TooltipProvider>
       <div className="flex min-h-screen w-full flex-col bg-muted">
@@ -39,33 +57,19 @@ export default function RootLayout({
               🦆
               <span className="sr-only">Acme Inc</span>
             </Link>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link href="/dashboard" className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                  <Home className="h-5 w-5" />
-                  <span className="sr-only">Dashboard</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Dashboard</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link href="/domains" className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                  <Globe className="h-5 w-5" />
-                  <span className="sr-only">Domains</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Domains</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link href="/analytics" className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
-                  <LineChart className="h-5 w-5" />
-                  <span className="sr-only">Analytics</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Analytics</TooltipContent>
-            </Tooltip>
+            {menus.map((menu) => {
+              return (
+                <Tooltip key={menu.href + "_desk1"}>
+                  <TooltipTrigger asChild>
+                    <Link href={menu.href} className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8">
+                      {menu.icon}
+                      <span className="sr-only">{menu.label}</span>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">{menu.label}</TooltipContent>
+                </Tooltip>
+              );
+            })}
           </nav>
           <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
             <Tooltip>
@@ -92,17 +96,6 @@ export default function RootLayout({
               </TooltipTrigger>
               <TooltipContent side="right">Logout</TooltipContent>
             </Tooltip>
-            {/* <Tooltip>
-              <TooltipTrigger asChild>
-                <Link href={"/profile"} className="overflow-hidden rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={`https://ui-avatars.com/api/?name=${user?.name}&background=random`} alt="User" />
-                    <AvatarFallback>O</AvatarFallback>
-                  </Avatar>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Profile</TooltipContent>
-            </Tooltip> */}
           </nav>
         </aside>
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -120,24 +113,17 @@ export default function RootLayout({
                     <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
                     <span className="sr-only">Acme Inc</span>
                   </Link>
-                  <Link href="#" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                    <Home className="h-5 w-5" />
-                    Dashboard
-                  </Link>
-                  <Link href="#" className="flex items-center gap-4 px-2.5 text-foreground">
-                    <ShoppingCart className="h-5 w-5" />
-                    Orders
-                  </Link>
-                  <Link href="#" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                    <Package className="h-5 w-5" />
-                    Products
-                  </Link>
-                  <Link href="#" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                    <Users2 className="h-5 w-5" />
-                    Customers
-                  </Link>
-                  <Link href="#" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                    <LineChart className="h-5 w-5" />
+                  {menus.map((menu) => {
+                    return (
+                      <Link key={menu.href + "_mob1"} href={menu.href} className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                        {menu.icon}
+                        {menu.label}
+                      </Link>
+                    );
+                  })}
+
+                  <Link href="/settings" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                    <Settings className="h-5 w-5" />
                     Settings
                   </Link>
                 </nav>
