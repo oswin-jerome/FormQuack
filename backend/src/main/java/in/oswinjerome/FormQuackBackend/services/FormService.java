@@ -3,6 +3,8 @@ package in.oswinjerome.FormQuackBackend.services;
 import in.oswinjerome.FormQuackBackend.dto.EmailPayload;
 import in.oswinjerome.FormQuackBackend.dto.FormOverviewDto;
 import in.oswinjerome.FormQuackBackend.dto.UpdateFormDto;
+import in.oswinjerome.FormQuackBackend.enums.Plans;
+import in.oswinjerome.FormQuackBackend.exceptions.ActionNotAllowedException;
 import in.oswinjerome.FormQuackBackend.exceptions.DomainLimitExceededException;
 import in.oswinjerome.FormQuackBackend.models.Domain;
 import in.oswinjerome.FormQuackBackend.models.Email;
@@ -73,7 +75,12 @@ public class FormService {
         }
 
         FormOverviewDto formDto = new FormOverviewDto(form.get().getId(), form.get().getName(),form.get().isActive());
+
         formDto.setForwardToEmail(form.get().isForwardToEmail());
+        formDto.setSendAck(form.get().isSendAck());
+        formDto.setAckMessage(form.get().getAckMessage());
+        formDto.setSuccessMessage(form.get().getSuccessMessage());
+
         formDto.setTotalSubmissions(submissionRepo.countSubmissionByForm(form.get()));
         formDto.setSubmissionsToday(submissionRepo.countSubmissionByFormAndCreatedAtBetween(
                 form.get(),
@@ -109,6 +116,21 @@ public class FormService {
         Form actual = form.get();
         if(toUpdate.getForwardToEmail()!=null){
             actual.setForwardToEmail(toUpdate.getForwardToEmail());
+        }
+        System.out.println(toUpdate);
+        if(toUpdate.getSendAck()!=null){
+            actual.setSendAck(toUpdate.getSendAck());
+        }
+
+        if(toUpdate.getAckMessage()!=null){
+            actual.setAckMessage(toUpdate.getAckMessage());
+        }
+
+        if(toUpdate.getSuccessMessage()!=null){
+            if(authService.getCurrentUser().getPlan() != Plans.PRO_PLUS){
+                throw new ActionNotAllowedException("This feature is only available in PRO PLUS plan");
+            }
+            actual.setSuccessMessage(toUpdate.getSuccessMessage());
         }
 
         formRepo.save(actual);

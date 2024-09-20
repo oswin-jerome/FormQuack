@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -98,6 +99,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(
                 new ResponsePayload(false,null,e.getMessage())
                 , HttpStatus.UNAUTHORIZED
+        );
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponsePayload> fieldValidation(MethodArgumentNotValidException e){
+
+        return new ResponseEntity<>(
+                new ResponsePayload(false,null,e.getFieldError().getDefaultMessage())
+                , HttpStatus.UNPROCESSABLE_ENTITY
         );
     }
 

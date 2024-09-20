@@ -6,6 +6,7 @@ import { Icons } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mail } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function ResetPasswordPage() {
@@ -42,6 +43,12 @@ export default function ResetPasswordPage() {
           <Alert>
             <AlertTitle>Success!</AlertTitle>
             <AlertDescription>If an account exists for {email}, you will receive a password reset link shortly.</AlertDescription>
+            <div className="mt-4 text-center text-sm">
+              Go back to{" "}
+              <Link href="/login" className="underline">
+                Login
+              </Link>
+            </div>
           </Alert>
         ) : (
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

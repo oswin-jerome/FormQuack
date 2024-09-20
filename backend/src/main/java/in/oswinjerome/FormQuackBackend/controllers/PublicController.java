@@ -28,7 +28,7 @@ public class PublicController {
         String json = ow.writeValueAsString(body);
         HashMap<String,Object> hostPayload = (HashMap<String, Object>) body;
         System.out.println(hostPayload.values());
-        if(hostPayload.get("host")==null){
+        if(hostPayload.get("host")==null ) {
             throw  new InvalidHostException("our domain is not associated with this form. Please check the form url.");
         }
         return submissionService.createSubmission(formId,json,hostPayload.get("host").toString(),hostPayload);

@@ -26,11 +26,20 @@ public class RabbitMQConsumer {
     public void receiveMessage(Message message) throws JsonProcessingException, MessagingException, UnsupportedEncodingException {
          final ObjectMapper objectMapper = new ObjectMapper();
         System.out.println(new String(message.getBody()));
-        Map<String, Object> map = objectMapper.readValue(new String(message.getBody()), new TypeReference<HashMap<String, Object>>() {});
+        String key = message.getMessageProperties().getReceivedRoutingKey();
+        System.out.println(key);
+        if(key.equals("routing.key.test")){
+            Map<String, Object> map = objectMapper.readValue(new String(message.getBody()), new TypeReference<HashMap<String, Object>>() {});
+            notificationService.sendEmail((ArrayList<String>) map.get("emailTo"),map.get("formName")+" Submission",map);
+        }
 
-        notificationService.sendEmail((ArrayList<String>) map.get("emailTo"),map.get("formName")+" Submission",map);
+        if(key.equals("routing.key.ack")){
+            System.out.println("####### ACK #######");
+            Map<String, Object> map = objectMapper.readValue(new String(message.getBody()), new TypeReference<HashMap<String, Object>>() {});
+            notificationService.sendAckMessage((String) map.get("email"),
+                    (String) map.get("message"),(String) map.get("submission_id"));
 
-
+        }
         System.out.println("Received message: " + new String(message.getBody()));
     }
 }

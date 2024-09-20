@@ -21,9 +21,21 @@ public interface SubmissionRepo extends JpaRepository<Submission,String> {
     int countSubmissionByFormIn(List<Form> forms);
     int countSubmissionByFormInAndCreatedAtBetween(List<Form> forms, LocalDate from,LocalDate to);
 
+    int countSubmissionByFormInAndSendAckIsTrue(List<Form> forms);
+    int countSubmissionByFormInAndCreatedAtBetweenAndSendAckIsTrue(List<Form> forms, LocalDate from,LocalDate to);
 
-//    TODO: Limit to 30 days
-    @Query("SELECT TO_CHAR(s.createdAt,'dd Mon yy') as month_year, COUNT(*) AS count FROM Submission as s WHERE s.form IN :forms GROUP BY s.createdAt ORDER BY s.createdAt")
+
+    @Query(value = """
+            SELECT gs.date::date AS month_year,COALESCE(COUNT(s.id), 0) AS count FROM generate_series(
+               CURRENT_DATE - INTERVAL '29 days',
+                CURRENT_DATE, 
+                '1 day'
+            ) AS gs(date) LEFT JOIN submission s ON DATE(s.created_at) = gs.date::date
+        GROUP BY 
+            gs.date
+        ORDER BY 
+            gs.date;
+""", nativeQuery = true)
     List<Map<String, Long>> countSubmissionsPerMonth(List<Form> forms);
 
 

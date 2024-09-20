@@ -19,7 +19,8 @@ export const fetchHelper = async (url: string, options: RequestInit) => {
 
   if (response.status == 500) {
     // TODO: fix this
-    // redirect("/logout");
+    console.error(await response.json());
+    redirect("/error");
   }
 
   return response;

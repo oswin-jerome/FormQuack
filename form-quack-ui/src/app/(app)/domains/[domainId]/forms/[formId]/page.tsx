@@ -7,11 +7,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart, Globe } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Ack from "./Ack";
 import ControlEmails from "./ControlEmails";
+import Customize from "./Customize";
 import PayloadView from "./submissions/PayloadView";
 
 const FormDetails = async ({ params }: { params: { formId: number } }) => {
   const form = (await getForm(params.formId)).data;
+  console.log(form.sendAck);
   if (form == undefined) {
     redirect("/404");
   }
@@ -96,6 +99,12 @@ const FormDetails = async ({ params }: { params: { formId: number } }) => {
           </CardContent>
         </Card>
         <ControlEmails className="lg:row-start-1 lg:col-span-2 lg:row-span-2" form={form} emails={emails} />
+        <div className=" lg:col-span-2 lg:row-span-2">
+          <Ack form={form}></Ack>
+        </div>
+        <div className=" lg:col-span-2 lg:row-span-2">
+          <Customize form={form}></Customize>
+        </div>
       </div>
     </main>
   );

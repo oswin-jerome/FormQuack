@@ -24,6 +24,7 @@ public class Email {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @jakarta.validation.constraints.Email(message = "Invalid email id")
     private String email;
 
     @CreatedDate

@@ -3,7 +3,6 @@ package in.oswinjerome.FormQuackBackend.services;
 import in.oswinjerome.FormQuackBackend.dto.DashboardDTO;
 import in.oswinjerome.FormQuackBackend.models.Domain;
 import in.oswinjerome.FormQuackBackend.models.Form;
-import in.oswinjerome.FormQuackBackend.models.Submission;
 import in.oswinjerome.FormQuackBackend.models.User;
 import in.oswinjerome.FormQuackBackend.repos.*;
 import in.oswinjerome.FormQuackBackend.utils.ResponsePayload;
@@ -13,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -91,7 +88,7 @@ public class AnalyticsService {
 
         setTotalSubmissions(dashboardDTO);
         setEmailStats(dashboardDTO);
-
+        setTotalAck(dashboardDTO);
 
         return new ResponseEntity<>(new ResponsePayload(true,dashboardDTO,""),HttpStatus.OK);
     }
@@ -144,6 +141,23 @@ public class AnalyticsService {
                 LocalDate.from(today.plusDays(1).atStartOfDay())));
         dashboardDTO.setTotalSubmissionsThisMonth(
                 submissionRepo.countSubmissionByFormInAndCreatedAtBetween(getFormsForUser(),
+                        today.with(TemporalAdjusters.firstDayOfMonth()),
+                        today.with(TemporalAdjusters.lastDayOfMonth())
+                )
+        );
+    }
+
+    private void setTotalAck(DashboardDTO dashboardDTO){
+        LocalDate today = LocalDate.now();
+
+        int totalAck = submissionRepo.countSubmissionByFormInAndSendAckIsTrue(getFormsForUser());
+
+        dashboardDTO.setTotalAck(totalAck);
+        dashboardDTO.setTotalAckToday(submissionRepo.countSubmissionByFormInAndCreatedAtBetweenAndSendAckIsTrue(getFormsForUser(),
+                LocalDate.from(today.atStartOfDay()),
+                LocalDate.from(today.plusDays(1).atStartOfDay())));
+        dashboardDTO.setTotalAckThisMonth(
+                submissionRepo.countSubmissionByFormInAndCreatedAtBetweenAndSendAckIsTrue(getFormsForUser(),
                         today.with(TemporalAdjusters.firstDayOfMonth()),
                         today.with(TemporalAdjusters.lastDayOfMonth())
                 )

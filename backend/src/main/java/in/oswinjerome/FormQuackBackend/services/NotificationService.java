@@ -2,8 +2,10 @@ package in.oswinjerome.FormQuackBackend.services;
 
 import in.oswinjerome.FormQuackBackend.configs.AppConfig;
 import in.oswinjerome.FormQuackBackend.models.Notification;
+import in.oswinjerome.FormQuackBackend.models.Submission;
 import in.oswinjerome.FormQuackBackend.models.User;
 import in.oswinjerome.FormQuackBackend.repos.NotificationRepo;
+import in.oswinjerome.FormQuackBackend.repos.SubmissionRepo;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class NotificationService {
 
     @Autowired
     NotificationRepo notificationRepo;
+
+    @Autowired
+    SubmissionRepo submissionRepo;
 
     public void sendEmail(ArrayList<String> toEmail, String subject, Map<String, Object> templateModel) throws MessagingException, UnsupportedEncodingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -91,4 +96,29 @@ public class NotificationService {
         mailSender.send(mimeMessage);
         System.out.println("Dynamic HTML email sent successfully");
     }
+
+    public void sendAckMessage(String email, String message, String submissionId) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+        helper.setTo(email);
+        helper.setSubject("Thank you");
+        helper.setText(message);
+        helper.setFrom(appConfig.getFromAddress());
+
+        // Send the email
+        mailSender.send(mimeMessage);
+
+        Optional<Submission> submissionOptional = submissionRepo.findById(submissionId);
+        if(submissionOptional.isPresent()){
+            Submission submission = submissionOptional.get();
+            submission.setSendAck(true);
+            submissionRepo.save(submission);
+        }
+
+        System.out.println("Dynamic HTML email sent successfully");
+    }
+
+
+
 }

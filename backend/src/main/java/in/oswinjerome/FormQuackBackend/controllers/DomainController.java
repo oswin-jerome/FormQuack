@@ -5,6 +5,7 @@ import in.oswinjerome.FormQuackBackend.models.Domain;
 import in.oswinjerome.FormQuackBackend.services.AuthService;
 import in.oswinjerome.FormQuackBackend.services.DomainService;
 import in.oswinjerome.FormQuackBackend.utils.ResponsePayload;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class DomainController {
     AuthService authService;
 
     @PostMapping
-    public ResponseEntity<ResponsePayload> create(@RequestBody Domain domain) throws DomainLimitExceededException {
+    public ResponseEntity<ResponsePayload> create(@RequestBody @Valid Domain domain) throws DomainLimitExceededException {
 
         domain.setUser(authService.getCurrentUser());
 

@@ -21,4 +21,11 @@ public class RabbitMqProducer {
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, "routing.key.test", jsonString);
     }
 
+    public void sendAck(Map<String,Object> message) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = objectMapper.writeValueAsString(message);
+
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, "routing.key.ack", jsonString);
+    }
+
 }

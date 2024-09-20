@@ -33,6 +33,10 @@ public class DashboardDTO {
     int totalFailsToday;
     int totalFailsThisMonth;
 
+    int totalAck;
+    int totalAckToday;
+    int totalAckThisMonth;
+
 
 
 }

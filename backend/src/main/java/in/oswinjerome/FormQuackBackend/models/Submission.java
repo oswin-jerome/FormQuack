@@ -2,6 +2,8 @@ package in.oswinjerome.FormQuackBackend.models;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.cglib.core.Local;
 
@@ -9,6 +11,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
 public class Submission {
     @UuidGenerator()
     @Id
@@ -25,36 +29,7 @@ public class Submission {
     @Column(nullable = true)
     private LocalDate createdAt = LocalDate.now();
 
+    @Column(nullable = true)
+    private Boolean sendAck = false;
 
-    public Form getForm() {
-        return form;
-    }
-
-    public void setForm(Form form) {
-        this.form = form;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPayload() {
-        return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
 }

@@ -24,6 +24,7 @@ const EmailManager = ({ emails }: { emails: Email[] }) => {
       router.refresh();
       setNewEmail("");
     } else {
+      console.log(res);
       toast.error("Oops", {
         description: res.err,
       });

@@ -25,6 +25,10 @@ public class FormOverviewDto {
 
     private int submissionLimitPerForm;
 
+    private boolean sendAck;
+    private String ackMessage;
+    private String successMessage;
+
 
     public FormOverviewDto(String id, String name, boolean isActive) {
         this.id = id;

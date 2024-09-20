@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Icons } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -60,11 +61,17 @@ export default function RegistrationPage() {
               <Input value={data.password} onChange={(e) => setData({ ...data, password: e.target.value })} id="password" type="password" required />
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="grid">
             <Button className="w-full" type="submit" disabled={isLoading}>
               {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
               Sign up
             </Button>
+            <div className="mt-4 text-center text-sm">
+              Already have an account?{" "}
+              <Link href="/login" className="underline">
+                Login
+              </Link>
+            </div>
           </CardFooter>
         </form>
       </Card>

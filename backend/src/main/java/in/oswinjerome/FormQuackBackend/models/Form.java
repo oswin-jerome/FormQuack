@@ -25,22 +25,29 @@ public class Form {
     private String name;
     private boolean isActive;
 
-   @ManyToOne
-   @JoinColumn(name = "domain_id")
-   @JsonBackReference
-   private Domain domain;
+    @ManyToOne
+    @JoinColumn(name = "domain_id")
+    @JsonBackReference
+    private Domain domain;
 
-   private boolean forwardToEmail = false;
+    private boolean forwardToEmail = false;
+    @Column(nullable = true)
+    private boolean sendAck = false;
+    @Column(nullable = true)
+    private String ackMessage;
 
-   @ManyToMany
-   @JoinTable(
-           name = "forms_emails"
-   )
-   private Set<Email> emails;
+    @Column(nullable = true)
+    private String successMessage;
 
-   @OneToMany(mappedBy = "form")
-   @JsonIgnore
-   private List<Submission> submissions;
+    @ManyToMany
+    @JoinTable(
+            name = "forms_emails"
+    )
+    private Set<Email> emails;
+
+    @OneToMany(mappedBy = "form")
+    @JsonIgnore
+    private List<Submission> submissions;
 
 
     public Form(String name) {

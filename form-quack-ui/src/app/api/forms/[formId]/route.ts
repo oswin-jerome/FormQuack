@@ -25,5 +25,5 @@ export async function POST(request: Request, { params }: { params: { formId: str
     redirect(`/error?message=${a.err}&back=${request.headers.get("referer")}`);
   }
 
-  redirect(`/success?domain=${a.data.id}&back=${request.headers.get("referer")}`);
+  redirect(`/success?domain=${a.data.domain}&back=${request.headers.get("referer")}&message=${a.data.message ?? ""}`);
 }

@@ -2,7 +2,6 @@ import { getUser } from "@/actions/auth";
 import { getDomain } from "@/actions/domains";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Switch } from "@/components/ui/switch";
 import { Domain, FormOverview } from "@/types";
 import { File, Globe } from "lucide-react";
 import Link from "next/link";
@@ -45,7 +44,7 @@ const DomainDetails = async ({ params }: { params: { domainId: number } }) => {
         </Card>
       </div>
       <div className="flex justify-between items-center mt-8">
-        <h3 className="text-xl font-bold">Forms</h3>
+        <h3 className="text-xl font-bold dark:text-white">Forms</h3>
         <AddForm domainId={params.domainId} />
       </div>
       <div className="grid  md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -59,9 +58,7 @@ const DomainDetails = async ({ params }: { params: { domainId: number } }) => {
                       <CardTitle>{form.name}</CardTitle>
                       <CardDescription>{form.totalSubmissions} Submissions</CardDescription>
                     </div>
-                    <div>
-                      <Switch checked={form.active}></Switch>
-                    </div>
+                    <div>{/* <Switch checked={form.active}></Switch> */}</div>
                   </div>
                 </CardHeader>
               </Card>

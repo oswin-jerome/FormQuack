@@ -10,7 +10,6 @@ export const addEmail = async (email: string) => {
   });
 
   const data: APIResponse<Object> = await res.json();
-
   return data;
 };
 export const deleteEmail = async (emailId: number) => {

@@ -80,6 +80,11 @@ public class EmailService {
             throw new ActionNotAllowedException("Account email cannot be deleted");
         }
 
+        if(email.get().getFormCount()!=0){
+//            TODO: take care of unlinking
+            throw new ActionNotAllowedException("Unlink email from forms before deleting");
+        }
+
         emailRepo.delete(email.get());
 
         return new ResponseEntity<>(new ResponsePayload(true,null,""),HttpStatus.OK);

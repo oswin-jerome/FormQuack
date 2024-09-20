@@ -1,10 +1,10 @@
 "use client";
 import { login } from "@/actions/auth";
+import AppLogo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,7 +19,7 @@ const LoginPage = () => {
   });
 
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+    <div className="w-full lg:grid  lg:grid-cols-2 h-screen ">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
@@ -74,8 +74,15 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-      <div className="hidden bg-muted lg:block">
-        <Image src="/placeholder.svg" alt="Image" width="1920" height="1080" className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
+      <div className="hidden lg:flex flex-col justify-between bg-primary px-12 py-8 relative">
+        <div className="bg-pattern inset-0 absolute z-0 opacity-30"></div>
+        <div className="flex gap-2 items-center z-10">
+          <AppLogo className="text-white size-10" />
+          <p className="text-white font-bold text-xl">FormQuack </p>
+        </div>
+        <div className="text-white z-10">
+          <p>Quack Quack</p>
+        </div>
       </div>
     </div>
   );

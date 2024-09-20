@@ -40,14 +40,14 @@ export default async function Dashboard() {
       total: data.totalFails,
     },
     acknowledgmentsSent: {
-      today: 0,
-      thisMonth: 0,
-      total: 0,
+      today: data.totalAckToday,
+      thisMonth: data.totalAckThisMonth,
+      total: data.totalAck,
     },
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 ">
+    <div className="min-h-screen  ">
       <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
         <div className="bg-gradient-to-r from-purple-400 via-violet-500 to-blue-500 p-8 text-white">
           <h1 className="text-4xl font-bold mb-2">👋 Welcome back, {user.name}!</h1>
@@ -57,7 +57,7 @@ export default async function Dashboard() {
       </div>
 
       <header className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">Dashboard</h2>
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h2>
       </header>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

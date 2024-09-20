@@ -11,6 +11,9 @@ export interface Form {
   active: boolean;
   domain: Domain;
   forwardToEmail: boolean;
+  sendAck: boolean;
+  ackMessage: string;
+  successMessage: string;
   emails: Email[];
 }
 
@@ -75,4 +78,7 @@ export interface DashboardPayload {
   totalFails: number;
   totalFailsToday: number;
   totalFailsThisMonth: number;
+  totalAck: number;
+  totalAckToday: number;
+  totalAckThisMonth: number;
 }

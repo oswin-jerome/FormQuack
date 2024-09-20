@@ -3,6 +3,7 @@ package in.oswinjerome.FormQuackBackend.controllers;
 import in.oswinjerome.FormQuackBackend.models.Email;
 import in.oswinjerome.FormQuackBackend.services.EmailService;
 import in.oswinjerome.FormQuackBackend.utils.ResponsePayload;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class EmailController {
     EmailService emailService;
 
     @PostMapping
-    public ResponseEntity<ResponsePayload> createEmail(@RequestBody Email email){
+    public ResponseEntity<ResponsePayload> createEmail(@RequestBody @Valid Email email){
         return emailService.addEmail(email.getEmail());
     }
 

@@ -1,5 +1,6 @@
 "use client";
 import { getUser, logout } from "@/actions/auth";
+import AppLogo from "@/components/Logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
@@ -54,7 +55,7 @@ export default function RootLayout({
           <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
             <Link href="#" className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full  text-xl font-semibold text-primary-foreground md:h-8 md:w-8 md:text-xl">
               {/* <Package2 className="h-4 w-4 transition-all group-hover:scale-110" /> */}
-              🦆
+              <AppLogo className="text-primary size-8" />
               <span className="sr-only">Acme Inc</span>
             </Link>
             {menus.map((menu) => {
