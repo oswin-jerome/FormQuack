@@ -2,8 +2,10 @@ package in.oswinjerome.FormQuackBackend.repos;
 
 import in.oswinjerome.FormQuackBackend.models.Form;
 import in.oswinjerome.FormQuackBackend.models.Submission;
+import in.oswinjerome.FormQuackBackend.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,15 +30,16 @@ public interface SubmissionRepo extends JpaRepository<Submission,String> {
     @Query(value = """
             SELECT gs.date::date AS month_year,COALESCE(COUNT(s.id), 0) AS count FROM generate_series(
                CURRENT_DATE - INTERVAL '29 days',
-                CURRENT_DATE, 
+                CURRENT_DATE,
                 '1 day'
             ) AS gs(date) LEFT JOIN submission s ON DATE(s.created_at) = gs.date::date
-        GROUP BY 
+            AND s.form_id IN (:ids)
+        GROUP BY\s
             gs.date
-        ORDER BY 
+        ORDER BY\s
             gs.date;
 """, nativeQuery = true)
-    List<Map<String, Long>> countSubmissionsPerMonth(List<Form> forms);
+    List<Map<String, Long>> countSubmissionsPerMonth(@Param("ids") List<String> ids);
 
 
 
