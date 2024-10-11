@@ -61,7 +61,7 @@ public class AnalyticsService {
         List<Form> forms = formRepo.getFormsByDomainIn(domains);
 
         List<Map<String, Long>> res =  submissionRepo.countSubmissionsPerMonth(forms.stream().map(Form::getId).toList());
-    
+
 
 
         return new ResponseEntity<>(new ResponsePayload(true,res,""), HttpStatus.OK);

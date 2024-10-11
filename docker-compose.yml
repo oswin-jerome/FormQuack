@@ -17,6 +17,7 @@ services:
     depends_on:
       - db
       - rabbitmq
+    restart: unless-stopped
     networks:
       - app-network
 
@@ -32,6 +33,7 @@ services:
       PUBLIC_APP_DOMAIN: https://formquack.oswinjerome.in
     depends_on:
       - backend
+    restart: unless-stopped
     networks:
       - app-network
 
@@ -45,6 +47,7 @@ services:
       - "5432:5432"
     networks:
       - app-network
+    restart: unless-stopped
     volumes:
       - ./data:/var/lib/postgresql/data
 
@@ -55,6 +58,7 @@ services:
       - "15673:15672" # Management console port
     networks:
       - app-network
+    restart: unless-stopped
 
 networks:
   app-network:
