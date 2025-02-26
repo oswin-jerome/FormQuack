@@ -6,22 +6,23 @@ import { NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("Authorization", "Bearer " + cookies().get("auth_token")?.value);
-
-  if (!["/login", "/register", "/forgot-password", "/"].includes(request.nextUrl.pathname)) {
-    if (!cookies().has("auth_token") && request.nextUrl.pathname != "") {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-  } else {
-    if (cookies().has("auth_token")) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-  }
-
   const response = NextResponse.next({
     request: {
       headers: requestHeaders,
     },
   });
+
+  if (!["/login", "/register", "/forgot-password", "/", "/success", "/error"].includes(request.nextUrl.pathname)) {
+    if (!cookies().has("auth_token") && request.nextUrl.pathname != "") {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
+
+  if (["/login", "/register", "/forgot-password"].includes(request.nextUrl.pathname)) {
+    if (cookies().has("auth_token")) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
 
   return response;
 }

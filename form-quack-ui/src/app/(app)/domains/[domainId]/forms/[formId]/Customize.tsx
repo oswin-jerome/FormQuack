@@ -55,7 +55,7 @@ const Customize = ({ form }: { form: Form }) => {
         >
           Save
         </Button>
-        <Link target="__blank" href={`/success?message=${message}&color=${primaryColor}`}>
+        <Link target="__blank" href={`/success?message=${message}&color=${primaryColor.replace("#", "")}`}>
           <Button variant={"outline"}>Preview</Button>
         </Link>
       </CardFooter>

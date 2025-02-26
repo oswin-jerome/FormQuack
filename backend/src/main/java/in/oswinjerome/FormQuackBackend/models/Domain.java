@@ -20,7 +20,7 @@ public class Domain {
 
 //    Domain should be unique to a user
     @Pattern(
-            regexp = "^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.[A-Za-z]{2,6}(\\.[A-Za-z]{2,6})?$",
+            regexp = "^(?!-)([A-Za-z0-9-]{1,63}\\.)+[A-Za-z]{2,15}$",
             message = "Invalid domain format"
     )
     private String domain;
